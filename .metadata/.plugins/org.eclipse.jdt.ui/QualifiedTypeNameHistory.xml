@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.sun.tools.javac.util.Pair"/>
-    <fullyQualifiedTypeName name="java.security.MessageDigest"/>
-    <fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
-    <fullyQualifiedTypeName name="java.util.stream.IntStream"/>
-    <fullyQualifiedTypeName name="org.graalvm.compiler.bytecode.Bytes"/>
-    <fullyQualifiedTypeName name="sun.jvm.hotspot.runtime.Bytes"/>
-</qualifiedTypeNameHistroy>
