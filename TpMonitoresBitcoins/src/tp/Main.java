@@ -14,6 +14,7 @@ public class Main {
 		 pedirDatos();
 		 buffer = new Buffer(2);
 		 segunLaDificultad(dificultad);
+		 System.out.println("hello");
 	     ThreadPool threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres);
 	     threadPool.init();
 	     threadPool.launch(10);
@@ -27,6 +28,7 @@ public class Main {
 		 cantThreads = entrada.nextInt();
 		 System.out.print("Ingrese la dificultad deseada: ");
 		 dificultad = entrada.nextInt();
+		
 	 }
 	 
 	 private static void segunLaDificultad(int dif) {
