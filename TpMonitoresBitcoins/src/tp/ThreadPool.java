@@ -18,27 +18,27 @@ public class ThreadPool {
     }
 
     public void init(){
-    	System.out.println("holaaaa");
         for (int i = 0; i < worker; ++i){
-        	System.out.println("Soy el worker numero: " + i);
             PowWorker pow = new PowWorker(buffer, caracters, dificultad, this);
+            pow.id = i;
             powWorkers.add(pow);
             pow.start();
         }
     }
 
-    public void launch (Object tarea){ //la tarea es el rango de valores a analizar
-        buffer.push(tarea);
 
-    }
-
+    public  void terminarThreads() {
+		for (int i = 0; i<10; i++) {
+			PoisonPill poison = new PoisonPill();
+			buffer.push(poison);
+			poison.start();
+		}
+	}
+	 
     public void stop(){
     	for (PowWorker pow : powWorkers) {
     		pow.setEncontroNonce(true);
     	}
-        for (int i = 0; i < worker; ++i){
-            buffer.push(new PoisonPill());
-        }
         
     }
 }

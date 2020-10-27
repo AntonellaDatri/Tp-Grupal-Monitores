@@ -11,9 +11,8 @@ public class PowWorker extends Thread {
 	private int dificultad;
 	private ThreadPool threadPool; 
 	private String caracteres;
+	public int id = 0;
 	private boolean encontroNonce = false;
-	
-	
 	
 	public boolean isEncontroNonce() {
 		return encontroNonce;
@@ -31,36 +30,38 @@ public class PowWorker extends Thread {
 	}
 	
 	    public void run(){
-	            while (true) {
-	            	System.out.println("Inicialice PowWorker");
-	    	
-	    	Object rango = buffer.pop();
-	    	verificarRangos(rango);
-	    	
-	    	
-	        }
+            while (true) {
+            	try {
+            	Object rango =  buffer.pop();
+            	System.out.println("Pedi en el buffer: " + id);
+            	verificarRangos(rango);
+            	} catch (PoisonException e) {
+    	            System.out.println(e.getMessage());
+    			}	
+            	
+        }
 	}
 	
 	public void verificarRangos(Object rango) {
-		((IntStream) rango).forEach(num -> verificarNum(num));
-		
+		System.out.println("Verificando rango");
+		((IntStream) rango).forEach( num -> verificarNum(num));
+		System.out.println("Finalizo verificacion");
+		threadPool.terminarThreads(); //PROBLEMAS
+		System.out.println("Pase el terminar");
 	}
 	
 	private void verificarNum(int num) {
-		System.out.println(num);
 		if (!encontroNonce) {
 			MessageDigest digest;
 			try {
-				digest = MessageDigest.getInstance("SHA-256");
-						String hashable = caracteres + num; 
-			        	byte[] hash = digest.digest(hashable.getBytes(StandardCharsets.UTF_8));
-			        	
-			        	verificarDificultad(hash);
-					}
-			catch (NoSuchAlgorithmException e) {
-						e.printStackTrace();
-			}
-		}	
+					digest = MessageDigest.getInstance("SHA-256");
+					String hashable = caracteres + num; 
+		        	byte[] hash = digest.digest(hashable.getBytes(StandardCharsets.UTF_8));
+		        	verificarDificultad(hash);
+			} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+			} 
+		}
 	}
 	
 	private void verificarDificultad(byte[] hash) {
@@ -70,8 +71,11 @@ public class PowWorker extends Thread {
 		}
 		if (verificacion) {
 			this.encontroNonce = true;
-			threadPool.stop();
+			System.out.println("LLEGUE");
 			printNonce(hash);
+			threadPool.stop();
+			threadPool.terminarThreads();
+			System.out.println("Pase el terminar de true");
 		}
 		
 	}

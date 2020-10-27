@@ -13,12 +13,12 @@ public class Main {
 	 public static void main(String[] args) { //Threads: 1, 2, 4, 6, 8 y 10
 		 pedirDatos();
 		 buffer = new Buffer(2);
+		 ThreadPool threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres);
+		 threadPool.init();
 		 segunLaDificultad(dificultad);
-		 System.out.println("hello");
-	     ThreadPool threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres);
-	     threadPool.init();
-	     threadPool.launch(10);
-	   }
+	     
+	     
+	  }
 	 
 	 private static void pedirDatos() {
 		 Scanner entrada = new Scanner(System.in);
@@ -42,7 +42,7 @@ public class Main {
 			}
 	 }
 	 
-	 private static boolean esPar(int mod) {
+	private static boolean esPar(int mod) {
 		 return mod == 0;
 	 }
 	 
