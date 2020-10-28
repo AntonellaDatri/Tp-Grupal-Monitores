@@ -3,14 +3,15 @@ package tp;
 public class Buffer {
 
 	private int size = 0;
-	private Object[] data;
+	private Tareas[] data;
 	private int begin = 0, end = 0;
 	public Buffer(int size) {
 		this.size = size;
-		this.data = new Object[this.size +1];
+		this.data = new Tareas[this.size +1];
 		
 	}
-	public synchronized void push( Object o ) {
+	
+	public synchronized void push( Tareas o ) {
 		while (isFull()) {
 			try {
 				wait();
@@ -18,12 +19,12 @@ public class Buffer {
 				e.printStackTrace();
 			}
 		}
-			data[begin] = o;
-			begin = next(begin);
-			notifyAll();
-		}
+		data[begin] = o;
+		begin = next(begin);
+		notifyAll();
+	}
 	
-	public synchronized Object pop() {
+	public synchronized Tareas pop() {
 		while (isEmpty()) {
 			try {
 				wait ();
@@ -32,7 +33,7 @@ public class Buffer {
 				e.printStackTrace();
 			}
 		}
-		Object result = data [end];
+		Tareas result = data [end];
 		end = next (end);
 		notifyAll();
 		return result;
@@ -41,5 +42,4 @@ public class Buffer {
 	private boolean isEmpty () { return begin == end ; }
 	private boolean isFull () { return next ( begin ) == end ; }
 	private int next ( int i) { return (i +1) %( size +1); }
-
 }

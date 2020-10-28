@@ -8,8 +8,7 @@ public class ThreadPool {
     int worker, dificultad;
     String caracters;
     ArrayList<PowWorker> powWorkers = new ArrayList<PowWorker>(); 
-  
-    
+	
     public ThreadPool (Buffer b, int t, int d, String c) {
         buffer = b;
         worker = t;
@@ -26,12 +25,10 @@ public class ThreadPool {
         }
     }
 
-
     public  void terminarThreads() {
-		for (int i = 0; i<10; i++) {
+    	for (int i = 0; i<worker +1; i++) {
 			PoisonPill poison = new PoisonPill();
 			buffer.push(poison);
-			poison.start();
 		}
 	}
 	 
@@ -39,6 +36,5 @@ public class ThreadPool {
     	for (PowWorker pow : powWorkers) {
     		pow.setEncontroNonce(true);
     	}
-        
     }
 }

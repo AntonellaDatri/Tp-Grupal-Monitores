@@ -9,15 +9,18 @@ public class Main {
     private static int dificultad;
     private static String caracteres;
     private static  Buffer buffer;
-    
+    private static ThreadPool threadPool;
+    private static long TInicio, TFin;
 	 public static void main(String[] args) { //Threads: 1, 2, 4, 6, 8 y 10
 		 pedirDatos();
 		 buffer = new Buffer(2);
-		 ThreadPool threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres);
+		 threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres);
 		 threadPool.init();
+		 TInicio = System.currentTimeMillis();
 		 segunLaDificultad(dificultad);
-	     
-	     
+		 /*------------------------------------------------*/
+		 TFin = System.currentTimeMillis();
+		 System.out.println("Cantidad de segundos tardados: " + (TFin -TInicio));
 	  }
 	 
 	 private static void pedirDatos() {
@@ -40,6 +43,7 @@ public class Main {
 			else {
 				formatoImpar(unidad, mod);
 			}
+			threadPool.terminarThreads();
 	 }
 	 
 	private static boolean esPar(int mod) {
@@ -49,7 +53,9 @@ public class Main {
 	 private static void formatoPar(int unidad) {
 		 for (int i = 0; i<cantThreads; i++) {
 			IntStream stream = IntStream.range((unidad)*i, (unidad)*(i+1));
-			buffer.push(stream);
+			Tareas tarea = new Tareas();
+			tarea.guardarStream(stream);
+			buffer.push(tarea);
 		 }
 	 }
 	 
@@ -73,6 +79,12 @@ public class Main {
 	 }
 	 
 	 private static void pushearAlBuffer(ArrayList<IntStream> rangos) {
-		 rangos.forEach(rango -> buffer.push(rango));
+		 rangos.forEach(rango -> pushearRango(rango));
 	 }
+
+	private static void pushearRango(IntStream rango) {
+		Tareas tarea = new Tareas();
+		tarea.guardarStream(rango);
+		buffer.push(tarea);
+	}
 }
