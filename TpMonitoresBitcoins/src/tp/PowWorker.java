@@ -1,5 +1,7 @@
 package tp;
 
+import java.util.stream.IntStream;
+
 public class PowWorker extends Thread {
 	private Buffer buffer;
 	public int id = 0;
@@ -19,18 +21,19 @@ public class PowWorker extends Thread {
     	try {
 	        while (true) {  		
 	        	System.out.println("Entramos de nuevo");
-	    		Tareas rango =  buffer.pop();
-	    		rango.run();
-	    		verificarRangos(rango);
+	    		Tareas tarea =  buffer.pop();
+	    		tarea.run();
+	    		verificarRangos(tarea);
 	        }
     	} catch (PoisonException e) {
         	System.out.println("Terminamos y no encotramos un nonce");
 		}		
 	}
 	
-	private void verificarRangos(Tareas rango) {
+	private void verificarRangos(Tareas tarea) {
 		System.out.println("Verificando rango");
-		rango.getStream().forEach( num -> state.verificarNum(num));
+		IntStream rango = tarea.getStream();
+		rango.forEach( num -> state.verificarNum(num));
 		System.out.println("Finalizo verificacion");
 	}
 	

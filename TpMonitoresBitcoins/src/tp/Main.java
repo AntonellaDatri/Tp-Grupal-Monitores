@@ -52,9 +52,11 @@ public class Main {
 	 
 	 private static void formatoPar(int unidad) {
 		 for (int i = 0; i<cantThreads; i++) {
-			IntStream stream = IntStream.range((unidad)*i, (unidad)*(i+1));
-			Tareas tarea = new Tareas();
-			tarea.guardarStream(stream);
+			int inicio = (unidad)*i;
+			int fin = ((unidad)*(i+1))-1;
+			IntStream stream = IntStream.range(inicio, fin);
+			Rango tarea = new Rango();
+			tarea.setStream(stream);
 			buffer.push(tarea);
 		 }
 	 }
@@ -83,8 +85,9 @@ public class Main {
 	 }
 
 	private static void pushearRango(IntStream rango) {
-		Tareas tarea = new Tareas();
-		tarea.guardarStream(rango);
+		Rango tarea = new Rango();
+		tarea.setStream(rango);
+		
 		buffer.push(tarea);
 	}
 }

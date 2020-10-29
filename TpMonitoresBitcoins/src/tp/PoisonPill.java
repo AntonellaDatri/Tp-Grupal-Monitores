@@ -1,8 +1,15 @@
 package tp;
 
-class PoisonPill extends Tareas{
-	@Override
+import java.util.stream.IntStream;
+
+class PoisonPill implements Tareas{
     public void run() {
-        throw new PoisonException("Me llego una poisonException");
+         throw new PoisonException("Me llego una poisonException");
    }
+
+	@Override
+	public IntStream getStream() {
+		// no devuelve nada, nunca deberia llegar a est instancia, siempre se tiene que correr primero el run()
+		return null;
+	}
 }

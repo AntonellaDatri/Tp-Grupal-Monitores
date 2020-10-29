@@ -2,14 +2,18 @@ package tp;
 
 import java.util.stream.IntStream;
 
-public class Tareas implements Runnable{
-	 IntStream stream;
-	 public void run() {}
-	 public void guardarStream(IntStream s) {
+public interface Tareas extends Runnable{
+	 //IntStream stream;
+	 public void run();
+
+	public IntStream getStream();
+	 
+	 
+	 /*public void guardarStream(IntStream s) {
 		 stream = s;
 	 }
 	 
 	 public IntStream getStream() {
 		 return stream;
-	 }
+	 }*/
 }
