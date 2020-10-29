@@ -13,10 +13,10 @@ public class Main {
     private static long TInicio, TFin;
 	 public static void main(String[] args) { //Threads: 1, 2, 4, 6, 8 y 10
 		 pedirDatos();
+		 TInicio = System.currentTimeMillis();
 		 buffer = new Buffer(2);
 		 threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres);
 		 threadPool.init();
-		 TInicio = System.currentTimeMillis();
 		 segunLaDificultad(dificultad);
 		 /*------------------------------------------------*/
 		 TFin = System.currentTimeMillis();

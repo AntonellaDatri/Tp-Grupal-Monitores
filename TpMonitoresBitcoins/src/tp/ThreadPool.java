@@ -33,8 +33,9 @@ public class ThreadPool {
 	}
 	 
     public void stop(){
+    	FindNonceState state = new Encontrado();
     	for (PowWorker pow : powWorkers) {
-    		pow.setEncontroNonce(true);
+    		pow.setState(state);
     	}
     }
 }

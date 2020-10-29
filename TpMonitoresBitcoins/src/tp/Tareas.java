@@ -2,7 +2,7 @@ package tp;
 
 import java.util.stream.IntStream;
 
-public class Tareas extends Thread{
+public class Tareas implements Runnable{
 	 IntStream stream;
 	 public void run() {}
 	 public void guardarStream(IntStream s) {
