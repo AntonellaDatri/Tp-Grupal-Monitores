@@ -11,16 +11,20 @@ public class Main {
     private static  Buffer buffer;
     private static ThreadPool threadPool;
     private static long TInicio, TFin;
+   
+    
 	 public static void main(String[] args) { //Threads: 1, 2, 4, 6, 8 y 10
 		 pedirDatos();
 		 TInicio = System.currentTimeMillis();
+		 Contador contador = new Contador(cantThreads ,TInicio);
 		 buffer = new Buffer(2);
-		 threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres);
+		 threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres, contador);
 		 threadPool.init();
-		 segunLaDificultad(dificultad);
+		 segunLaDificultad();
+		 contador.imprimir();
 		 /*------------------------------------------------*/
-		 TFin = System.currentTimeMillis();
-		 System.out.println("Cantidad de segundos tardados: " + (TFin -TInicio));
+		 /*TFin = System.currentTimeMillis();
+		 System.out.println("Cantidad de segundos tardados: " + (TFin -TInicio));*/
 	  }
 	 
 	 private static void pedirDatos() {
@@ -34,9 +38,9 @@ public class Main {
 		
 	 }
 	 
-	 private static void segunLaDificultad(int dif) {
-			int unidad = (int) Math.pow(dif, dif*8)/cantThreads;
-			int mod = (int) Math.pow(dif, dif*8)%cantThreads;
+	 private static void segunLaDificultad() {
+			int unidad = (int) Math.pow(2, 32)/cantThreads;
+			int mod = (int) Math.pow(2, 32)%cantThreads;
 			if ( esPar(mod)) {
 				formatoPar(unidad);
 			} 

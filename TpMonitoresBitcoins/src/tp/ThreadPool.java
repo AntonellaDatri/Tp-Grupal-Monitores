@@ -7,9 +7,11 @@ public class ThreadPool {
     Buffer buffer;
     int worker, dificultad;
     String caracters;
-    ArrayList<PowWorker> powWorkers = new ArrayList<PowWorker>(); 
+    ArrayList<PowWorker> powWorkers = new ArrayList<PowWorker>();
+    private Contador contador;
 	
-    public ThreadPool (Buffer b, int t, int d, String c) {
+    public ThreadPool (Buffer b, int t, int d, String c, Contador contador) {
+    	this.contador = contador;
         buffer = b;
         worker = t;
         caracters = c;
@@ -18,7 +20,7 @@ public class ThreadPool {
 
     public void init(){
         for (int i = 0; i < worker; ++i){
-            PowWorker pow = new PowWorker(buffer, caracters, dificultad, this);
+            PowWorker pow = new PowWorker(buffer, caracters, dificultad, this, contador);
             pow.id = i;
             powWorkers.add(pow);
             pow.start();
