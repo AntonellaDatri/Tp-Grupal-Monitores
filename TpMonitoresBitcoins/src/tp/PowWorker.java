@@ -3,22 +3,16 @@ package tp;
 import java.util.stream.IntStream;
 
 public class PowWorker extends Thread {
-	private Buffer buffer;
-	public int id = 0;
 	private FindNonceState state;
-	private Contador contador;
+	
 
-	public void setState(FindNonceState state) {
-		this.state = state;
-	}
-
-	public PowWorker(Buffer buff, String caracteres, int dificultad, ThreadPool threadPool, Contador contador) {
-        buffer = buff;
-        this.contador = contador;
-        this.state = new Buscando(caracteres, dificultad, threadPool); 
+	public PowWorker(Buffer buffer, String caracteres, int dificultad, ThreadPool threadPool, Timer timer) {
+        this.state = new Buscando(caracteres, dificultad, threadPool);
+        start(timer, buffer);
 	}
 	
-    public void run(){
+	
+    private void start(Timer timer, Buffer buffer){
     	try {
 	        while (true) {  	
 	    		Tareas tarea = buffer.pop();
@@ -26,16 +20,19 @@ public class PowWorker extends Thread {
 	    		verificarRangos(tarea);
 	        }
     	} catch (PoisonException e) {
-    		contador.escribir();
-        	System.out.println("Termina thread");
+    		timer.terminarThread();
 		}		
 	}
+    
 	
 	private void verificarRangos(Tareas tarea) {
 		IntStream rango = tarea.getStream();
 		rango.forEach( num -> state.verificarNum(num));
 	}
 	
-			
+	
+	public void setState(FindNonceState state) {
+		this.state = state;
+	}		
 }		
 	

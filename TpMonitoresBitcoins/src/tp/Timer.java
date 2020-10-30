@@ -1,22 +1,22 @@
 package tp;
 
-public class Contador {
+public class Timer {
 	private int thread;
 	private int cantThreadTerminados = 0;
 	private long TInicio, TFin;
 	
-	public Contador(int thread, long inicio) {
+	public Timer(int thread, long inicio) {
 		this.thread = thread;
 		this.TInicio = inicio;
 	}
 	
 
-	public synchronized void escribir() {
+	public synchronized void terminarThread() {
 		cantThreadTerminados ++;
 		notify();
 	} 
 
-	public synchronized void imprimir() {
+	public synchronized void calcularSegundos() {
 		while (cantThreadTerminados < thread){
 			try {
 				wait();

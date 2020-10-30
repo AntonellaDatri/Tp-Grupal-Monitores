@@ -16,12 +16,11 @@ public class Main {
 	 public static void main(String[] args) { //Threads: 1, 2, 4, 6, 8 y 10
 		 pedirDatos();
 		 TInicio = System.currentTimeMillis();
-		 Contador contador = new Contador(cantThreads ,TInicio);
+		 Timer contador = new Timer(cantThreads ,TInicio);
 		 buffer = new Buffer(2);
 		 threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres, contador);
-		 threadPool.init();
-		 segunLaDificultad();
-		 contador.imprimir();
+		 repartirTareas();
+		 contador.calcularSegundos();
 		 /*------------------------------------------------*/
 		 /*TFin = System.currentTimeMillis();
 		 System.out.println("Cantidad de segundos tardados: " + (TFin -TInicio));*/
@@ -38,7 +37,7 @@ public class Main {
 		
 	 }
 	 
-	 private static void segunLaDificultad() {
+	 private static void repartirTareas() {
 			int unidad = (int) Math.pow(2, 32)/cantThreads;
 			int mod = (int) Math.pow(2, 32)%cantThreads;
 			if ( esPar(mod)) {
@@ -47,7 +46,7 @@ public class Main {
 			else {
 				formatoImpar(unidad, mod);
 			}
-			threadPool.terminarThreads();
+			threadPool.stop();
 	 }
 	 
 	private static boolean esPar(int mod) {

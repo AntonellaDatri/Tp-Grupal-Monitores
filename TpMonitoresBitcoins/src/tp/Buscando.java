@@ -43,11 +43,7 @@ public class Buscando implements FindNonceState{
 		}
 		if (verificacion) {
 			System.out.println("Se encontro el nonce: " + num);
-/*			byte [] bytes =  BigInteger.valueOf(num).toByteArray();
-			for (int i = 0; i < bytes.length; i++ ) {
-				System.out.println("Se encontro el nonce: " + bytes[i]);
-			}*/
-			threadPool.stop();
+			threadPool.pararWorkers();
 		}
 	}
 
