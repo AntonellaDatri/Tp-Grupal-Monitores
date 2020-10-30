@@ -4,15 +4,19 @@ import java.util.stream.IntStream;
 
 public class PowWorker extends Thread {
 	private FindNonceState state;
+	Timer timer;
+	Buffer buffer;
 	
 
 	public PowWorker(Buffer buffer, String caracteres, int dificultad, ThreadPool threadPool, Timer timer) {
-        this.state = new Buscando(caracteres, dificultad, threadPool);
-        start(timer, buffer);
+       this.state = new Buscando(caracteres, dificultad, threadPool);
+       this.timer = timer;
+       this.buffer = buffer;
+       this.start();
 	}
 	
 	
-    private void start(Timer timer, Buffer buffer){
+    public void run(){
     	try {
 	        while (true) {  	
 	    		Tareas tarea = buffer.pop();

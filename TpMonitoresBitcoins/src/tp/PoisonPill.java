@@ -9,7 +9,7 @@ class PoisonPill implements Tareas{
 
 	@Override
 	public IntStream getStream() {
-		// no devuelve nada, nunca deberia llegar a est instancia, siempre se tiene que correr primero el run()
+		// no devuelve nada, nunca deberia llegar a est instancia, siempre se tiene que correr primero el run() 
 		return null;
 	}
 }

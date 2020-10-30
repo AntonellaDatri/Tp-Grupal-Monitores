@@ -38,59 +38,52 @@ public class Main {
 	 }
 	 
 	 private static void repartirTareas() {
-			int unidad = (int) Math.pow(2, 32)/cantThreads;
-			int mod = (int) Math.pow(2, 32)%cantThreads;
-			if ( esPar(mod)) {
-				formatoPar(unidad);
-			} 
-			else {
-				formatoImpar(unidad, mod);
-			}
+			crearRangos();
 			threadPool.stop();
 	 }
 	 
-	private static boolean esPar(int mod) {
-		 return mod == 0;
+	 
+	 private static void crearRangos() {
+		int mod = (int) Math.pow(2, 32)%cantThreads;
+		ArrayList<IntStream> rangos = new ArrayList<IntStream>();
+		ArrayList<IntStream> ultimasUnidades = new ArrayList<IntStream>();
+		
+		dividirRangos(rangos, ultimasUnidades, mod);
+		agregarElResto(rangos, ultimasUnidades, mod);
+		pushearAlBuffer(rangos);
 	 }
 	 
-	 private static void formatoPar(int unidad) {
-		 for (int i = 0; i<cantThreads; i++) {
-			int inicio = (unidad)*i;
-			int fin = ((unidad)*(i+1))-1;
-			IntStream stream = IntStream.range(inicio, fin);
-			Rango tarea = new Rango();
-			tarea.setStream(stream);
-			buffer.push(tarea);
-		 }
-	 }
 	 
-	 private static void formatoImpar(int unidad, int mod) {
-		 ArrayList<IntStream> rangos = new ArrayList<IntStream>();
+	 private static void dividirRangos(ArrayList<IntStream> rangos, ArrayList<IntStream> ultimasUnidades, int mod) {
+		 int unidad = (int) Math.pow(2, 32)/cantThreads;
 		 int ultimaUnidad = 0;
 		 for (int i = 0; i<(cantThreads); i++) {
-			IntStream stream = IntStream.range((unidad)*i, (unidad)*(i+1));
-			rangos.add(stream);
-			ultimaUnidad = (unidad)*(i+1);
-		 }
-		 IntStream stream1 = IntStream.range(ultimaUnidad, (ultimaUnidad+mod));
-		 ArrayList<IntStream> probando = new ArrayList<IntStream>();
-		 stream1.forEach(e -> probando.add(IntStream.range(e, e+1)));
-		 for (int i=0; i< mod; i++) {
-			IntStream stream2= rangos.remove(i);
-			IntStream stream3 = IntStream.concat(stream2, probando.get(i));
-			rangos.add(stream3);
-		 }
-		 pushearAlBuffer(rangos);
+				IntStream stream = IntStream.range((unidad)*i, (unidad)*(i+1));
+				rangos.add(stream);
+				ultimaUnidad = (unidad)*(i+1);
+			 } 
+		 IntStream stream1 = IntStream.range(ultimaUnidad, (ultimaUnidad + mod));
+		 stream1.forEach(e -> ultimasUnidades.add(IntStream.range(e, e+1)));
 	 }
+	 
+	 
+	 private static void agregarElResto(ArrayList<IntStream> rangos, ArrayList<IntStream> probando, int mod) {
+		 for (int i=0; i< mod; i++) {
+				IntStream stream2 = rangos.remove(i);
+				IntStream stream3 = IntStream.concat(stream2, probando.get(i));
+				rangos.add(stream3);
+			 }
+	 }
+	 
 	 
 	 private static void pushearAlBuffer(ArrayList<IntStream> rangos) {
 		 rangos.forEach(rango -> pushearRango(rango));
 	 }
 
-	private static void pushearRango(IntStream rango) {
+	 
+	 private static void pushearRango(IntStream rango) {
 		Rango tarea = new Rango();
 		tarea.setStream(rango);
-		
 		buffer.push(tarea);
 	}
 }
