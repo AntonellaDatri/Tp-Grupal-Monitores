@@ -5,10 +5,11 @@ import java.util.ArrayList;
 public class ThreadPool {
     private Buffer buffer;
     private ArrayList<PowWorker> powWorkers = new ArrayList<PowWorker>();
-    
+    private Timer timer;
 	
     public ThreadPool (Buffer buffer, int workers, int dificultad, String caracters, Timer timer) {
         this.buffer = buffer;
+        this.timer = timer;
         start(buffer, caracters, dificultad, timer, workers);
     }
 
@@ -34,6 +35,6 @@ public class ThreadPool {
 	public void pararWorkers(){
     	FindNonceState state = new Encontrado();	
     	powWorkers.forEach(pow -> pow.setState(state));
-    	
+    	timer.calcularSegundos();
     }
 }

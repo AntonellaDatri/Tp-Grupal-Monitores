@@ -24,7 +24,7 @@ public class PowWorker extends Thread {
 	    		verificarRangos(tarea);
 	        }
     	} catch (PoisonException e) {
-    		timer.terminarThread();
+    		//para a los thread
 		}		
 	}
     

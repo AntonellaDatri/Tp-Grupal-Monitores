@@ -10,21 +10,18 @@ public class Main {
     private static String caracteres;
     private static  Buffer buffer;
     private static ThreadPool threadPool;
-    private static long TInicio, TFin;
+    private static long TInicio;
    
     
 	 public static void main(String[] args) { //Threads: 1, 2, 4, 6, 8 y 10
 		 pedirDatos();
 		 TInicio = System.currentTimeMillis();
-		 Timer contador = new Timer(cantThreads ,TInicio);
+		 Timer contador = new Timer(TInicio);
 		 buffer = new Buffer(2);
 		 threadPool = new ThreadPool(buffer, cantThreads, dificultad, caracteres, contador);
 		 repartirTareas();
-		 contador.calcularSegundos();
-		 /*------------------------------------------------*/
-		 /*TFin = System.currentTimeMillis();
-		 System.out.println("Cantidad de segundos tardados: " + (TFin -TInicio));*/
-	  }
+		 // contador.calcularSegundos();
+		 }
 	 
 	 private static void pedirDatos() {
 		 Scanner entrada = new Scanner(System.in);
